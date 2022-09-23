@@ -1,0 +1,10 @@
+name=input("Bitte gben sie den namne ein:")
+age=input("Bitte alter eingeben :")
+sender=input("Namen von sender eingeben")
+
+print("Hallo " + name +",")
+print("Ich wünsche alles Gute zum " + age + "ten ich wünsche dir alles gute zu deinen " + age)
+print("Ich hoffe das du einen schönen Tag hast und mit deien Liebsten feierst.")
+print("Zudem wünsche ich dir alles nur erdenkliche Gute für das neue Lebensjahr und viel Gesundheit")
+print("Liebe Grüße")
+print(sender)
