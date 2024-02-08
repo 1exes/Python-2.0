@@ -1,19 +1,23 @@
-from playwright.sync_api import Playwright, sync_playwright, expect
+from playwright.sync_api import Playwright, sync_playwright
 
 
 def run(playwright: Playwright) -> None:
     browser = playwright.chromium.launch(headless=False)
     context = browser.new_context()
     page = context.new_page()
-    page.goto("https://www.google.com/search?q=instagram&oq=instagram&gs_lcrp=EgZjaHJvbWUyBggAEEUYOdIBCDM3MDZqMGoyqAIAsAIA&sourceid=chrome&ie=UTF-8")
-    page.get_by_role("button", name="Alle akzeptieren").click()
-    page.get_by_role("link", name="Instagram Instagram https://").click()
-    page.get_by_role("button", name="Alle Cookies erlauben").click()
-    page.locator("div").filter(has_text=re.compile(r"^Passwort$")).nth(1).click()
-    page.get_by_label("Passwort").fill("d")
-    page.get_by_label("Telefonnummer, Benutzername").fill("d")
-    page.get_by_label("Telefonnummer, Benutzername").click()
-    page.locator("div").filter(has_text=re.compile(r"^Anmelden$")).first.click()
+    page.goto("https://dashboard.honeygain.com/")
+    page.goto("https://dashboard.honeygain.com/login")
+    page.get_by_placeholder("honeygain@example.com").click()
+    page.get_by_placeholder("honeygain@example.com").fill("edgar.richter05@gmail.com")
+    page.get_by_label("Password").click()
+    page.get_by_label("Password").fill("testhoney")
+    page.get_by_label("Password").press("Enter")
+    page.get_by_role("main").get_by_role("button").first.click()
+    page.get_by_label("Password").click()
+    page.get_by_label("Password").fill("testhoneygain")
+    page.get_by_role("button", name="Continue with email").click()
+    page.get_by_role("button", name="Accept all").click()
+    page.get_by_role("main").locator("img").first.click()
 
     # ---------------------
     context.close()
