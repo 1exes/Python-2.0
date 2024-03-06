@@ -1,54 +1,46 @@
 import tkinter as tk
 from tkinter import messagebox
-
-import mysqlx-connetor
-
-
-
+import os
 
 class Haushaltsbuch:
     def __init__(self):
-        self.verbindung = mysqlx.connector.connect(
-            host="localhost",
-            user="benutzername",
-            password="passwort",
-            database="haushaltsbuch_db"
-        )
-        self.cursor = self.verbindung.cursor()
+        self.ausgaben_datei = "ausgaben.txt"
+        self.einnahmen_datei = "einnahmen.txt"
+        self.erstelle_dateien()
 
-        self.cursor.execute("CREATE TABLE IF NOT EXISTS ausgaben (id INT AUTO_INCREMENT PRIMARY KEY, kategorie VARCHAR(255), betrag FLOAT)")
-        self.cursor.execute("CREATE TABLE IF NOT EXISTS einnahmen (id INT AUTO_INCREMENT PRIMARY KEY, kategorie VARCHAR(255), betrag FLOAT)")
-        self.verbindung.commit()
+    def erstelle_dateien(self):
+        if not os.path.exists(self.ausgaben_datei):
+            with open(self.ausgaben_datei, "w") as file:
+                pass
+        if not os.path.exists(self.einnahmen_datei):
+            with open(self.einnahmen_datei, "w") as file:
+                pass
 
     def ausgabe_hinzufügen(self, kategorie, betrag):
-        self.cursor.execute("INSERT INTO ausgaben (kategorie, betrag) VALUES (%s, %s)", (kategorie, betrag))
-        self.verbindung.commit()
+        with open(self.ausgaben_datei, "a") as file:
+            file.write(f"{kategorie}: {betrag}\n")
 
     def einnahme_hinzufügen(self, kategorie, betrag):
-        self.cursor.execute("INSERT INTO einnahmen (kategorie, betrag) VALUES (%s, %s)", (kategorie, betrag))
-        self.verbindung.commit()
+        with open(self.einnahmen_datei, "a") as file:
+            file.write(f"{kategorie}: {betrag}\n")
 
     def gesamtausgaben_anzeigen(self):
-        self.cursor.execute("SELECT * FROM ausgaben")
-        ausgaben = self.cursor.fetchall()
-        ausgaben_text = "Gesamtausgaben:\n"
-        for ausgabe in ausgaben:
-            ausgaben_text += f"{ausgabe[1]}: {ausgabe[2]}\n"
+        with open(self.ausgaben_datei, "r") as file:
+            ausgaben_text = file.read()
         return ausgaben_text
 
     def gesamteinnahmen_anzeigen(self):
-        self.cursor.execute("SELECT * FROM einnahmen")
-        einnahmen = self.cursor.fetchall()
-        einnahmen_text = "Gesamteinnahmen:\n"
-        for einnahme in einnahmen:
-            einnahmen_text += f"{einnahme[1]}: {einnahme[2]}\n"
+        with open(self.einnahmen_datei, "r") as file:
+            einnahmen_text = file.read()
         return einnahmen_text
 
     def gesamtüberschuss_anzeigen(self):
-        self.cursor.execute("SELECT SUM(betrag) FROM einnahmen")
-        einnahmen_summe = self.cursor.fetchone()[0]
-        self.cursor.execute("SELECT SUM(betrag) FROM ausgaben")
-        ausgaben_summe = self.cursor.fetchone()[0]
+        with open(self.einnahmen_datei, "r") as file:
+            einnahmen = [float(line.split(":")[1]) for line in file.readlines()]
+        with open(self.ausgaben_datei, "r") as file:
+            ausgaben = [float(line.split(":")[1]) for line in file.readlines()]
+        einnahmen_summe = sum(einnahmen)
+        ausgaben_summe = sum(ausgaben)
         überschuss = einnahmen_summe - ausgaben_summe
         return f"Gesamtüberschuss: {überschuss}"
 
@@ -116,4 +108,3 @@ if __name__ == "__main__":
     button_gesamtüberschuss.grid(row=4, column=0, columnspan=2)
 
     root.mainloop()
-

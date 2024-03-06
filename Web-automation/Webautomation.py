@@ -14,7 +14,7 @@ def run(playwright: Playwright) -> None:
     page.get_by_label("Password").press("Enter")
     page.get_by_role("main").get_by_role("button").first.click()
     page.get_by_label("Password").click()
-    page.get_by_label("Password").fill("testhoneygain")
+    page.get_by_label("Password").fill("honeygaintest")
     page.get_by_role("button", name="Continue with email").click()
     page.get_by_role("button", name="Accept all").click()
     page.get_by_role("main").locator("img").first.click()
