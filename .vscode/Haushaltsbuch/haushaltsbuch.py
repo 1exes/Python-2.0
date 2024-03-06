@@ -1,11 +1,14 @@
 import tkinter as tk
 from tkinter import messagebox
 
-import mysql.connector
+import mysqlx-connetor
+
+
+
 
 class Haushaltsbuch:
     def __init__(self):
-        self.verbindung = mysql.connector.connect(
+        self.verbindung = mysqlx.connector.connect(
             host="localhost",
             user="benutzername",
             password="passwort",
