@@ -3,6 +3,15 @@ import click
 from clicknium import clicknium as cc, locator, ui
 import time
 import pyautogui
+from random2 import randint
+
+
+# Anzahl der Videos, Start- und Endzahl abfragen
+start_number = int(input("Startzahl: "))
+end_number = int(input("Endzahl: "))
+
+# Zufällige Zahl generieren und ausgeben
+random_num = randint(start_number, end_number)
 
 
 
@@ -16,7 +25,8 @@ tab.find_element(locator.tiktok.one).click(by='mouse-emulation') #starts the mou
 
 time.sleep(5)
 
-pyautogui.write(r"C:\Users\edgar\Videos\3.mp4")
+file_path = fr"C:\Users\edgar\Videos\{random_num}.mp4"
+pyautogui.write(file_path)
 
 pyautogui.press('enter')
 
