@@ -1,0 +1,1171 @@
+﻿{
+  "id": "ace54ae1-e4b8-4d99-9182-0dc01d85b540",
+  "name": "tiktok",
+  "nodes": [
+    {
+      "id": "23d3e336-8b3f-463e-aa04-c986b1a725a0",
+      "name": "msedge",
+      "nodes": [],
+      "locators": [
+        {
+          "id": "3bdcc0bd-467c-4c64-95af-fa8576414879",
+          "name": "combobox_dateiname",
+          "filePath": "3c87f0e8-39f6-4d92-a05f-dc4ab8a5640a.jpg",
+          "content": {
+            "automationType": "Uia",
+            "processName": {
+              "value": "msedge"
+            },
+            "filePath": {
+              "value": "msedge.exe"
+            },
+            "version": {
+              "value": "1.3"
+            },
+            "childControls": [
+              {
+                "identifier": {
+                  "automationId": {
+                    "value": "",
+                    "excluded": true
+                  },
+                  "isPassword": {
+                    "value": "False",
+                    "excluded": true
+                  },
+                  "orientation": {
+                    "value": "None",
+                    "excluded": true
+                  },
+                  "role": {
+                    "value": "window"
+                  },
+                  "isDirectChild": {
+                    "value": "True"
+                  },
+                  "className": {
+                    "value": "Chrome_WidgetWin_1"
+                  },
+                  "controlMetaType": "Uia",
+                  "name": {
+                    "value": "TikTok Creator Center - Profil 1 – Microsoft​ Edge"
+                  },
+                  "index": {
+                    "value": "1",
+                    "excluded": true
+                  }
+                },
+                "childControls": [
+                  {
+                    "identifier": {
+                      "automationId": {
+                        "value": "",
+                        "excluded": true
+                      },
+                      "isPassword": {
+                        "value": "False",
+                        "excluded": true
+                      },
+                      "orientation": {
+                        "value": "None",
+                        "excluded": true
+                      },
+                      "role": {
+                        "value": "window"
+                      },
+                      "isDirectChild": {
+                        "value": "True"
+                      },
+                      "className": {
+                        "value": "#32770"
+                      },
+                      "controlMetaType": "Uia",
+                      "name": {
+                        "value": "Öffnen"
+                      },
+                      "index": {
+                        "value": "1",
+                        "excluded": true
+                      }
+                    },
+                    "childControls": [
+                      {
+                        "identifier": {
+                          "automationId": {
+                            "value": "1148"
+                          },
+                          "isPassword": {
+                            "value": "False",
+                            "excluded": true
+                          },
+                          "orientation": {
+                            "value": "None",
+                            "excluded": true
+                          },
+                          "role": {
+                            "value": "comboBox"
+                          },
+                          "accessKey": {
+                            "value": "Alt+n"
+                          },
+                          "isDirectChild": {
+                            "value": "True"
+                          },
+                          "className": {
+                            "value": "ComboBox"
+                          },
+                          "controlMetaType": "Uia",
+                          "name": {
+                            "value": "Dateiname:",
+                            "excluded": true
+                          },
+                          "index": {
+                            "value": "1",
+                            "excluded": true
+                          }
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "id": "538874bd-afbd-43d9-b1a0-d1b766c1ad0b",
+          "name": "button_öffnen",
+          "filePath": "a9bbbbf9-2f2f-4a76-b4eb-fd1d71c9039b.jpg",
+          "content": {
+            "automationType": "Uia",
+            "processName": {
+              "value": "msedge"
+            },
+            "filePath": {
+              "value": "msedge.exe"
+            },
+            "version": {
+              "value": "1.3"
+            },
+            "childControls": [
+              {
+                "identifier": {
+                  "automationId": {
+                    "value": "",
+                    "excluded": true
+                  },
+                  "isPassword": {
+                    "value": "False",
+                    "excluded": true
+                  },
+                  "orientation": {
+                    "value": "None",
+                    "excluded": true
+                  },
+                  "role": {
+                    "value": "window"
+                  },
+                  "isDirectChild": {
+                    "value": "True"
+                  },
+                  "className": {
+                    "value": "Chrome_WidgetWin_1"
+                  },
+                  "controlMetaType": "Uia",
+                  "name": {
+                    "value": "TikTok Creator Center - Profil 1 – Microsoft​ Edge"
+                  },
+                  "index": {
+                    "value": "1",
+                    "excluded": true
+                  }
+                },
+                "childControls": [
+                  {
+                    "identifier": {
+                      "automationId": {
+                        "value": "",
+                        "excluded": true
+                      },
+                      "isPassword": {
+                        "value": "False",
+                        "excluded": true
+                      },
+                      "orientation": {
+                        "value": "None",
+                        "excluded": true
+                      },
+                      "role": {
+                        "value": "window"
+                      },
+                      "isDirectChild": {
+                        "value": "True"
+                      },
+                      "className": {
+                        "value": "#32770"
+                      },
+                      "controlMetaType": "Uia",
+                      "name": {
+                        "value": "Öffnen"
+                      },
+                      "index": {
+                        "value": "1",
+                        "excluded": true
+                      }
+                    },
+                    "childControls": [
+                      {
+                        "identifier": {
+                          "automationId": {
+                            "value": "1"
+                          },
+                          "isPassword": {
+                            "value": "False",
+                            "excluded": true
+                          },
+                          "orientation": {
+                            "value": "None",
+                            "excluded": true
+                          },
+                          "role": {
+                            "value": "button"
+                          },
+                          "accessKey": {
+                            "value": "Alt+f"
+                          },
+                          "isDirectChild": {
+                            "value": "True"
+                          },
+                          "className": {
+                            "value": "Button"
+                          },
+                          "controlMetaType": "Uia",
+                          "name": {
+                            "value": "Öffnen",
+                            "excluded": true
+                          },
+                          "index": {
+                            "value": "1",
+                            "excluded": true
+                          }
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "locators": [
+    {
+      "id": "afaba293-ae12-48c8-ba7c-e74c18abb6ee",
+      "name": "1",
+      "filePath": "732fbe15-d41b-4efe-87e9-eda4d13dfee9.jpg",
+      "content": {
+        "automationType": "Edge",
+        "processName": {
+          "value": "msedge"
+        },
+        "filePath": {
+          "value": "msedge.exe"
+        },
+        "version": {
+          "value": "1.3"
+        },
+        "childControls": [
+          {
+            "identifier": {
+              "role": {
+                "value": "window"
+              },
+              "title": {
+                "value": "mindset_889 (@mindset404) | TikTok"
+              },
+              "url": {
+                "value": "https://www.tiktok.com/@mindset404",
+                "excluded": true
+              },
+              "className": {
+                "value": "Chrome_WidgetWin_1"
+              },
+              "controlMetaType": "Tab"
+            },
+            "childControls": [
+              {
+                "identifier": {
+                  "tag": {
+                    "value": "DIV"
+                  },
+                  "class": {
+                    "value": "css-1sacct4-DivUpload e18d3d944"
+                  },
+                  "ancestorId": {
+                    "value": "app-header"
+                  },
+                  "ancestorClass": {
+                    "value": "e18d3d942 css-2gvzau-ALink-StyledLink er1vbsz1",
+                    "excluded": true
+                  },
+                  "isLeaf": {
+                    "value": "0",
+                    "excluded": true
+                  },
+                  "cssSelector": {
+                    "value": "body>div>div>div>div>div>a>div",
+                    "excluded": true
+                  },
+                  "tableRow": {
+                    "value": "-1",
+                    "excluded": true
+                  },
+                  "tableCol": {
+                    "value": "-1",
+                    "excluded": true
+                  },
+                  "controlMetaType": "Web",
+                  "index": {
+                    "value": "1",
+                    "excluded": true
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "d0126c29-c0e0-4360-a96e-1eb07a18489c",
+      "name": "one",
+      "filePath": "6cec7c2a-8904-4c1b-8bb6-cdfa015bd84e.jpg",
+      "content": {
+        "automationType": "Edge",
+        "processName": {
+          "value": "msedge"
+        },
+        "filePath": {
+          "value": "msedge.exe"
+        },
+        "version": {
+          "value": "1.3"
+        },
+        "childControls": [
+          {
+            "identifier": {
+              "role": {
+                "value": "window"
+              },
+              "title": {
+                "value": "TikTok Creator Center"
+              },
+              "url": {
+                "value": "https://www.tiktok.com/creator-center/upload?from=upload",
+                "excluded": true
+              },
+              "className": {
+                "value": "Chrome_WidgetWin_1"
+              },
+              "controlMetaType": "Tab"
+            },
+            "childControls": [
+              {
+                "identifier": {
+                  "tag": {
+                    "value": "IFRAME"
+                  },
+                  "ancestorId": {
+                    "value": "root",
+                    "excluded": true
+                  },
+                  "ancestorClass": {
+                    "value": "css-1h3l6kc elu0u1q0",
+                    "excluded": true
+                  },
+                  "isLeaf": {
+                    "value": "1",
+                    "excluded": true
+                  },
+                  "cssSelector": {
+                    "value": "body>div>div>div>div>div>iframe",
+                    "excluded": true
+                  },
+                  "tableRow": {
+                    "value": "-1",
+                    "excluded": true
+                  },
+                  "tableCol": {
+                    "value": "-1",
+                    "excluded": true
+                  },
+                  "src": {
+                    "value": "https://www.tiktok.com/creator#/upload?scene=cre*"
+                  },
+                  "controlMetaType": "Web",
+                  "index": {
+                    "value": "1",
+                    "excluded": true
+                  },
+                  "data-tt": {
+                    "isCustom": true,
+                    "value": "Upload_index_iframe",
+                    "operator": "equals",
+                    "excluded": true
+                  },
+                  "style": {
+                    "isCustom": true,
+                    "value": "height: 737px; border-style: none; width: 100%; margin-bottom: -7px; z-index: 2; position: relative;",
+                    "operator": "equals",
+                    "excluded": true
+                  }
+                },
+                "childControls": [
+                  {
+                    "identifier": {
+                      "tag": {
+                        "value": "DIV"
+                      },
+                      "class": {
+                        "value": "css-1z070dx",
+                        "excluded": true
+                      },
+                      "ancestorId": {
+                        "value": "root"
+                      },
+                      "ancestorClass": {
+                        "value": "css-1db5cpb",
+                        "excluded": true
+                      },
+                      "isLeaf": {
+                        "value": "1",
+                        "excluded": true
+                      },
+                      "cssSelector": {
+                        "value": "body>div>div>div>div>div>div>div>div>div>div>button>div>div",
+                        "excluded": true
+                      },
+                      "sInfo": {
+                        "value": "Wähle eine Datei aus"
+                      },
+                      "tableRow": {
+                        "value": "-1",
+                        "excluded": true
+                      },
+                      "tableCol": {
+                        "value": "-1",
+                        "excluded": true
+                      },
+                      "controlMetaType": "Web",
+                      "index": {
+                        "value": "1",
+                        "excluded": true
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "1e9c2a30-37e1-49ee-87ce-18faec55771a",
+      "name": "four",
+      "filePath": "07cff3cf-5b48-4bbb-ae24-a29d673ddc35.jpg",
+      "content": {
+        "automationType": "Edge",
+        "processName": {
+          "value": "msedge"
+        },
+        "filePath": {
+          "value": "msedge.exe"
+        },
+        "version": {
+          "value": "1.3"
+        },
+        "childControls": [
+          {
+            "identifier": {
+              "role": {
+                "value": "window"
+              },
+              "title": {
+                "value": "TikTok Creator Center"
+              },
+              "url": {
+                "value": "https://www.tiktok.com/creator-center/upload?lang=en",
+                "excluded": true
+              },
+              "className": {
+                "value": "Chrome_WidgetWin_1"
+              },
+              "controlMetaType": "Tab"
+            },
+            "childControls": [
+              {
+                "identifier": {
+                  "tag": {
+                    "value": "IFRAME"
+                  },
+                  "ancestorId": {
+                    "value": "root",
+                    "excluded": true
+                  },
+                  "ancestorClass": {
+                    "value": "css-ps39ce elu0u1q0",
+                    "excluded": true
+                  },
+                  "isLeaf": {
+                    "value": "1",
+                    "excluded": true
+                  },
+                  "cssSelector": {
+                    "value": "body>div>div>div>div>div>iframe",
+                    "excluded": true
+                  },
+                  "tableRow": {
+                    "value": "-1",
+                    "excluded": true
+                  },
+                  "tableCol": {
+                    "value": "-1",
+                    "excluded": true
+                  },
+                  "src": {
+                    "value": "https://www.tiktok.com/creator#/upload?scene=cre*"
+                  },
+                  "controlMetaType": "Web",
+                  "index": {
+                    "value": "1",
+                    "excluded": true
+                  },
+                  "data-tt": {
+                    "isCustom": true,
+                    "value": "Upload_index_iframe",
+                    "operator": "equals",
+                    "excluded": true
+                  },
+                  "style": {
+                    "isCustom": true,
+                    "value": "height: 1275px; border-style: none; width: 100%; margin-bottom: -7px; z-index: 2; position: relative;",
+                    "operator": "equals",
+                    "excluded": true
+                  }
+                },
+                "childControls": [
+                  {
+                    "identifier": {
+                      "tag": {
+                        "value": "DIV"
+                      },
+                      "class": {
+                        "value": "public-DraftStyleDefault-block public-DraftStyleDefault-ltr"
+                      },
+                      "ancestorId": {
+                        "value": "root"
+                      },
+                      "ancestorClass": {
+                        "value": "notranslate public-DraftEditor-content",
+                        "excluded": true
+                      },
+                      "isLeaf": {
+                        "value": "0",
+                        "excluded": true
+                      },
+                      "cssSelector": {
+                        "value": "body>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div>div",
+                        "excluded": true
+                      },
+                      "tableRow": {
+                        "value": "-1",
+                        "excluded": true
+                      },
+                      "tableCol": {
+                        "value": "-1",
+                        "excluded": true
+                      },
+                      "controlMetaType": "Web",
+                      "index": {
+                        "value": "1",
+                        "excluded": true
+                      },
+                      "data-offset-key": {
+                        "isCustom": true,
+                        "value": "ab6m4-0-0",
+                        "operator": "equals",
+                        "excluded": true
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "2c5df47d-8967-4703-8e38-969c2bea8d7c",
+      "name": "five",
+      "filePath": "db9f1a55-421b-460a-91a0-1f43b3fe293c.jpg",
+      "content": {
+        "automationType": "Edge",
+        "processName": {
+          "value": "msedge"
+        },
+        "filePath": {
+          "value": "msedge.exe"
+        },
+        "version": {
+          "value": "1.3"
+        },
+        "childControls": [
+          {
+            "identifier": {
+              "role": {
+                "value": "window"
+              },
+              "title": {
+                "value": "TikTok Creator Center"
+              },
+              "url": {
+                "value": "https://www.tiktok.com/creator-center/upload?lang=en",
+                "excluded": true
+              },
+              "className": {
+                "value": "Chrome_WidgetWin_1"
+              },
+              "controlMetaType": "Tab"
+            },
+            "childControls": [
+              {
+                "identifier": {
+                  "tag": {
+                    "value": "IFRAME"
+                  },
+                  "ancestorId": {
+                    "value": "root",
+                    "excluded": true
+                  },
+                  "ancestorClass": {
+                    "value": "css-ps39ce elu0u1q0",
+                    "excluded": true
+                  },
+                  "isLeaf": {
+                    "value": "1",
+                    "excluded": true
+                  },
+                  "cssSelector": {
+                    "value": "body>div>div>div>div>div>iframe",
+                    "excluded": true
+                  },
+                  "tableRow": {
+                    "value": "-1",
+                    "excluded": true
+                  },
+                  "tableCol": {
+                    "value": "-1",
+                    "excluded": true
+                  },
+                  "src": {
+                    "value": "https://www.tiktok.com/creator#/upload?scene=cre*"
+                  },
+                  "controlMetaType": "Web",
+                  "index": {
+                    "value": "1",
+                    "excluded": true
+                  },
+                  "data-tt": {
+                    "isCustom": true,
+                    "value": "Upload_index_iframe",
+                    "operator": "equals",
+                    "excluded": true
+                  },
+                  "style": {
+                    "isCustom": true,
+                    "value": "height: 1275px; border-style: none; width: 100%; margin-bottom: -7px; z-index: 2; position: relative;",
+                    "operator": "equals",
+                    "excluded": true
+                  }
+                },
+                "childControls": [
+                  {
+                    "identifier": {
+                      "tag": {
+                        "value": "DIV"
+                      },
+                      "class": {
+                        "value": "css-1z070dx",
+                        "excluded": true
+                      },
+                      "ancestorId": {
+                        "value": "root"
+                      },
+                      "ancestorClass": {
+                        "value": "css-1db5cpb",
+                        "excluded": true
+                      },
+                      "isLeaf": {
+                        "value": "1",
+                        "excluded": true
+                      },
+                      "cssSelector": {
+                        "value": "body>div>div>div>div>div>div>div>div>div>button>div>div",
+                        "excluded": true
+                      },
+                      "sInfo": {
+                        "value": "Veröffentlichen"
+                      },
+                      "tableRow": {
+                        "value": "-1",
+                        "excluded": true
+                      },
+                      "tableCol": {
+                        "value": "-1",
+                        "excluded": true
+                      },
+                      "controlMetaType": "Web",
+                      "index": {
+                        "value": "1",
+                        "excluded": true
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "d5fa0384-31cb-4823-ad91-adab4e67a3bf",
+      "name": "Planen",
+      "filePath": "57eaf7d7-7d66-4e41-8eaa-67e001bc26bf.jpg",
+      "content": {
+        "automationType": "Edge",
+        "processName": {
+          "value": "msedge"
+        },
+        "filePath": {
+          "value": "msedge.exe"
+        },
+        "version": {
+          "value": "1.3"
+        },
+        "childControls": [
+          {
+            "identifier": {
+              "role": {
+                "value": "window"
+              },
+              "title": {
+                "value": "TikTok Creator Center"
+              },
+              "url": {
+                "value": "https://www.tiktok.com/creator-center/upload?lang=en",
+                "excluded": true
+              },
+              "className": {
+                "value": "Chrome_WidgetWin_1"
+              },
+              "controlMetaType": "Tab"
+            },
+            "childControls": [
+              {
+                "identifier": {
+                  "tag": {
+                    "value": "IFRAME"
+                  },
+                  "ancestorId": {
+                    "value": "root",
+                    "excluded": true
+                  },
+                  "ancestorClass": {
+                    "value": "css-ps39ce elu0u1q0",
+                    "excluded": true
+                  },
+                  "isLeaf": {
+                    "value": "1",
+                    "excluded": true
+                  },
+                  "cssSelector": {
+                    "value": "body>div>div>div>div>div>iframe",
+                    "excluded": true
+                  },
+                  "tableRow": {
+                    "value": "-1",
+                    "excluded": true
+                  },
+                  "tableCol": {
+                    "value": "-1",
+                    "excluded": true
+                  },
+                  "src": {
+                    "value": "https://www.tiktok.com/creator#/upload?scene=cre*"
+                  },
+                  "controlMetaType": "Web",
+                  "index": {
+                    "value": "1",
+                    "excluded": true
+                  },
+                  "data-tt": {
+                    "isCustom": true,
+                    "value": "Upload_index_iframe",
+                    "operator": "equals",
+                    "excluded": true
+                  },
+                  "style": {
+                    "isCustom": true,
+                    "value": "height: 1275px; border-style: none; width: 100%; margin-bottom: -7px; z-index: 2; position: relative;",
+                    "operator": "equals",
+                    "excluded": true
+                  }
+                },
+                "childControls": [
+                  {
+                    "identifier": {
+                      "tag": {
+                        "value": "INPUT"
+                      },
+                      "id": {
+                        "value": "tux-3"
+                      },
+                      "class": {
+                        "value": "css-16wbn0f",
+                        "excluded": true
+                      },
+                      "type": {
+                        "value": "checkbox",
+                        "excluded": true
+                      },
+                      "ancestorId": {
+                        "value": "root",
+                        "excluded": true
+                      },
+                      "ancestorClass": {
+                        "value": "css-1ka1qw0",
+                        "excluded": true
+                      },
+                      "isLeaf": {
+                        "value": "1",
+                        "excluded": true
+                      },
+                      "cssSelector": {
+                        "value": "body>div>div>div>div>div>div>div>div>div>div>div>div>input",
+                        "excluded": true
+                      },
+                      "sInfo": {
+                        "value": "Video planen",
+                        "excluded": true
+                      },
+                      "tableRow": {
+                        "value": "-1",
+                        "excluded": true
+                      },
+                      "tableCol": {
+                        "value": "-1",
+                        "excluded": true
+                      },
+                      "controlMetaType": "Web",
+                      "index": {
+                        "value": "1",
+                        "excluded": true
+                      },
+                      "data-tux-switch-input": {
+                        "isCustom": true,
+                        "value": "true",
+                        "operator": "equals",
+                        "excluded": true
+                      },
+                      "role": {
+                        "isCustom": true,
+                        "value": "switch",
+                        "operator": "equals",
+                        "excluded": true
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "619881de-2c22-4d54-a68c-055c04f4a68c",
+      "name": "datum",
+      "filePath": "aeb567fb-f745-4c36-8da0-b9a174ad413a.jpg",
+      "content": {
+        "automationType": "Edge",
+        "processName": {
+          "value": "msedge"
+        },
+        "filePath": {
+          "value": "msedge.exe"
+        },
+        "version": {
+          "value": "1.3"
+        },
+        "childControls": [
+          {
+            "identifier": {
+              "role": {
+                "value": "window"
+              },
+              "title": {
+                "value": "TikTok Creator Center"
+              },
+              "url": {
+                "value": "https://www.tiktok.com/creator-center/upload?lang=en",
+                "excluded": true
+              },
+              "className": {
+                "value": "Chrome_WidgetWin_1"
+              },
+              "controlMetaType": "Tab"
+            },
+            "childControls": [
+              {
+                "identifier": {
+                  "tag": {
+                    "value": "IFRAME"
+                  },
+                  "ancestorId": {
+                    "value": "root",
+                    "excluded": true
+                  },
+                  "ancestorClass": {
+                    "value": "css-1fn3rpx elu0u1q0",
+                    "excluded": true
+                  },
+                  "isLeaf": {
+                    "value": "1",
+                    "excluded": true
+                  },
+                  "cssSelector": {
+                    "value": "body>div>div>div>div>div>iframe",
+                    "excluded": true
+                  },
+                  "tableRow": {
+                    "value": "-1",
+                    "excluded": true
+                  },
+                  "tableCol": {
+                    "value": "-1",
+                    "excluded": true
+                  },
+                  "src": {
+                    "value": "https://www.tiktok.com/creator#/upload?scene=cre*"
+                  },
+                  "controlMetaType": "Web",
+                  "index": {
+                    "value": "1",
+                    "excluded": true
+                  },
+                  "data-tt": {
+                    "isCustom": true,
+                    "value": "Upload_index_iframe",
+                    "operator": "equals",
+                    "excluded": true
+                  },
+                  "style": {
+                    "isCustom": true,
+                    "value": "height: 1311px; border-style: none; width: 100%; margin-bottom: -7px; z-index: 2; position: relative;",
+                    "operator": "equals",
+                    "excluded": true
+                  }
+                },
+                "childControls": [
+                  {
+                    "identifier": {
+                      "tag": {
+                        "value": "SPAN"
+                      },
+                      "class": {
+                        "value": "jsx-3471246984",
+                        "excluded": true
+                      },
+                      "ancestorId": {
+                        "value": "root",
+                        "excluded": true
+                      },
+                      "ancestorClass": {
+                        "value": "jsx-3471246984",
+                        "excluded": true
+                      },
+                      "isLeaf": {
+                        "value": "1",
+                        "excluded": true
+                      },
+                      "cssSelector": {
+                        "value": "body>div>div>div>div>div>div>div>div>div>div>div>span>span",
+                        "excluded": true
+                      },
+                      "sInfo": {
+                        "value": "2024-03-31"
+                      },
+                      "tableRow": {
+                        "value": "-1",
+                        "excluded": true
+                      },
+                      "tableCol": {
+                        "value": "-1",
+                        "excluded": true
+                      },
+                      "controlMetaType": "Web",
+                      "index": {
+                        "value": "1",
+                        "excluded": true
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "218ab6a2-1195-468a-99e1-04aec0051555",
+      "name": "Uhrzeit",
+      "filePath": "bb63ca70-3397-4335-8fc9-eb4d4f8b2999.jpg",
+      "content": {
+        "automationType": "Edge",
+        "processName": {
+          "value": "msedge"
+        },
+        "filePath": {
+          "value": "msedge.exe"
+        },
+        "version": {
+          "value": "1.3"
+        },
+        "childControls": [
+          {
+            "identifier": {
+              "role": {
+                "value": "window"
+              },
+              "title": {
+                "value": "TikTok Creator Center"
+              },
+              "url": {
+                "value": "https://www.tiktok.com/creator-center/upload?lang=en",
+                "excluded": true
+              },
+              "className": {
+                "value": "Chrome_WidgetWin_1"
+              },
+              "controlMetaType": "Tab"
+            },
+            "childControls": [
+              {
+                "identifier": {
+                  "tag": {
+                    "value": "IFRAME"
+                  },
+                  "ancestorId": {
+                    "value": "root",
+                    "excluded": true
+                  },
+                  "ancestorClass": {
+                    "value": "css-1fn3rpx elu0u1q0",
+                    "excluded": true
+                  },
+                  "isLeaf": {
+                    "value": "1",
+                    "excluded": true
+                  },
+                  "cssSelector": {
+                    "value": "body>div>div>div>div>div>iframe",
+                    "excluded": true
+                  },
+                  "tableRow": {
+                    "value": "-1",
+                    "excluded": true
+                  },
+                  "tableCol": {
+                    "value": "-1",
+                    "excluded": true
+                  },
+                  "src": {
+                    "value": "https://www.tiktok.com/creator#/upload?scene=cre*"
+                  },
+                  "controlMetaType": "Web",
+                  "index": {
+                    "value": "1",
+                    "excluded": true
+                  },
+                  "data-tt": {
+                    "isCustom": true,
+                    "value": "Upload_index_iframe",
+                    "operator": "equals",
+                    "excluded": true
+                  },
+                  "style": {
+                    "isCustom": true,
+                    "value": "height: 1311px; border-style: none; width: 100%; margin-bottom: -7px; z-index: 2; position: relative;",
+                    "operator": "equals",
+                    "excluded": true
+                  }
+                },
+                "childControls": [
+                  {
+                    "identifier": {
+                      "tag": {
+                        "value": "SPAN"
+                      },
+                      "class": {
+                        "value": "jsx-3471246984",
+                        "excluded": true
+                      },
+                      "ancestorId": {
+                        "value": "root",
+                        "excluded": true
+                      },
+                      "ancestorClass": {
+                        "value": "jsx-3471246984",
+                        "excluded": true
+                      },
+                      "isLeaf": {
+                        "value": "1",
+                        "excluded": true
+                      },
+                      "cssSelector": {
+                        "value": "body>div>div>div>div>div>div>div>div>div>div>div>span>span",
+                        "excluded": true
+                      },
+                      "sInfo": {
+                        "value": "00:55"
+                      },
+                      "tableRow": {
+                        "value": "-1",
+                        "excluded": true
+                      },
+                      "tableCol": {
+                        "value": "-1",
+                        "excluded": true
+                      },
+                      "controlMetaType": "Web",
+                      "index": {
+                        "value": "1",
+                        "excluded": true
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -20,3 +20,12 @@ pyautogui.write(r"P:/ath/to/your/file/here.mp4")
 
 pyautogui.press('enter')
 
+
+
+#automate the wizard
+
+tab.find_element(locator.tiktok.four).set_text("Funny", by='sendkey-after-click')
+
+time.sleep(10)
+
+tab.find_element(locator.tiktok.five).click(by='mouse-emulation')
