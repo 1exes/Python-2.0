@@ -1,3 +1,4 @@
+from cgitb import text
 from webbrowser import Chrome
 import click
 from clicknium import clicknium as cc, locator, ui
@@ -30,11 +31,13 @@ for num in video_numbers:
     tab.find_element(locator.tiktok.four).set_text("Funny", by='sendkey-after-click')
     time.sleep(60)
 
+    tab.find_element(locator.tiktok.datum).click(by='mouse-emulation')
+
     tab.find_element(locator.tiktok.five).click(by='mouse-emulation')
     
     time.sleep(10)
     
-    tab.find_element(locator.tiktok.div_noch_ein_video_hochladen).click(by='mouse-emulation')
+    tab.find_element(locator.tiktok.div_noch_ein_video_hochladen).click()
    
     # Wartezeit nach dem Hochladen eines Videos
     time.sleep(10)
