@@ -1,7 +1,5 @@
-from re import S
-import ssl
 import tkinter as tk
-from tkinter import messagebox
+from tkinter import messagebox, ttk
 from clicknium import clicknium as cc, locator
 import time
 import pyautogui
@@ -14,35 +12,39 @@ class TikTokUploaderApp:
     def __init__(self, root):
         self.root = root
         self.root.title("TikTok Uploader")
-        self.root.geometry("600x400")
-        
+        self.root.geometry("650x300")
+        self.root.configure(bg='#f0f0f0')
+
         self.video_path = tk.StringVar()
         self.description_file = tk.StringVar()
         self.daily_posts = tk.IntVar(value=3)
         self.upload_times = tk.StringVar(value="9:00,13:00,16:00")
-        
+
+        frame = ttk.Frame(root, padding="20")
+        frame.grid(row=0, column=0, sticky=(tk.W, tk.E, tk.N, tk.S))
+
         # Video Path Entry
-        tk.Label(root, text="Video Path:").place(x=20, y=20)
-        self.video_path_entry = tk.Entry(root, textvariable=self.video_path, width=50)
-        self.video_path_entry.place(x=150, y=20)
+        ttk.Label(frame, text="Video Path:", background='#f0f0f0').grid(row=0, column=0, padx=10, pady=10, sticky=tk.W)
+        self.video_path_entry = ttk.Entry(frame, textvariable=self.video_path, width=50)
+        self.video_path_entry.grid(row=0, column=1, padx=10, pady=10, sticky=tk.W)
         
         # Description File Entry
-        tk.Label(root, text="Description File:").place(x=20, y=60)
-        self.description_file_entry = tk.Entry(root, textvariable=self.description_file, width=50)
-        self.description_file_entry.place(x=150, y=60)
+        ttk.Label(frame, text="Description File:", background='#f0f0f0').grid(row=1, column=0, padx=10, pady=10, sticky=tk.W)
+        self.description_file_entry = ttk.Entry(frame, textvariable=self.description_file, width=50)
+        self.description_file_entry.grid(row=1, column=1, padx=10, pady=10, sticky=tk.W)
 
         # Daily Posts Entry
-        tk.Label(root, text="Daily Posts (1-10):").place(x=20, y=100)
-        self.daily_posts_entry = tk.Entry(root, textvariable=self.daily_posts, width=10)
-        self.daily_posts_entry.place(x=150, y=100)
+        ttk.Label(frame, text="Daily Posts (1-10):", background='#f0f0f0').grid(row=2, column=0, padx=10, pady=10, sticky=tk.W)
+        self.daily_posts_entry = ttk.Entry(frame, textvariable=self.daily_posts, width=10)
+        self.daily_posts_entry.grid(row=2, column=1, padx=10, pady=10, sticky=tk.W)
 
         # Upload Times Entry
-        tk.Label(root, text="Upload Times (HH:MM separated by commas):").place(x=20, y=140)
-        self.upload_times_entry = tk.Entry(root, textvariable=self.upload_times, width=50)
-        self.upload_times_entry.place(x=250, y=140)
+        ttk.Label(frame, text="Upload Times (HH:MM separated by commas):", background='#f0f0f0').grid(row=3, column=0, padx=10, pady=10, sticky=tk.W)
+        self.upload_times_entry = ttk.Entry(frame, textvariable=self.upload_times, width=50)
+        self.upload_times_entry.grid(row=3, column=1, padx=10, pady=10, sticky=tk.W)
 
         # Start Button
-        tk.Button(root, text="Start Upload", command=self.start_upload).place(x=250, y=180)
+        ttk.Button(frame, text="Start Upload", command=self.start_upload).grid(row=4, column=0, columnspan=2, padx=10, pady=20)
 
     def load_video_description(self, filename):
         try:
@@ -68,7 +70,6 @@ class TikTokUploaderApp:
         best_upload_times = [(hour, minute) for hour, minute in upload_times][:daily_posts]
         
         threading.Thread(target=self.upload_videos, args=(video_path, description_file, video_numbers, best_upload_times)).start()
-        self.root.destroy()
         
     def update_progress(self, progress_text):
         print(progress_text)
@@ -138,4 +139,3 @@ class TikTokUploaderApp:
 root = tk.Tk()
 app = TikTokUploaderApp(root)
 root.mainloop()
-
