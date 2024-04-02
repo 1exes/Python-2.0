@@ -24,7 +24,7 @@ if daily_posts < 3 or daily_posts > 5:
     exit()
 
 # Liste der besten Hochladezeiten festlegen (als Stunden und Minuten)
-best_upload_times = [(10, 10), (14, 0), (16, 53), (20, 15), (22, 0)][:daily_posts]  # Beispielzeiten, angepasst an daily_posts
+best_upload_times = [(10, 10), (14, 0), (16, 53), (17, 16), (17, 20)][:daily_posts]  # Beispielzeiten, angepasst an daily_posts
 
 # Tab für TikTok Upload öffnen
 tab = cc.edge.open("https://www.tiktok.com/upload?lang=en")
@@ -69,7 +69,7 @@ for num in video_numbers:
     tab.find_element(locator.tiktok.one).click(by='mouse-emulation')  # Upload-Button klicken
     time.sleep(5)
 
-    file_path = fr"C:\Users\edgar\Videos\{num}.mp4"
+    file_path = fr"C:\Users\richte\Videos\{num}.mp4"
     pyautogui.write(file_path)
     pyautogui.press('enter')
 
