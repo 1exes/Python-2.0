@@ -67,7 +67,7 @@ def main():
         print("Ungültige Anzahl der täglichen Posts.")
         return
 
-    best_upload_times = [(8, 10), (14, 0), (16, 53), (17, 16), (22, 57)][:daily_posts]
+    best_upload_times = [(8, 10), (14, 0), (16, 53), (17, 16), (23, 42)][:daily_posts]
 
     tab = cc.edge.open("https://www.tiktok.com/upload?lang=en")
     time.sleep(5)
