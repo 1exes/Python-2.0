@@ -24,7 +24,7 @@ if daily_posts < 3 or daily_posts > 5:
     exit()
 
 # Liste der besten Hochladezeiten festlegen (als Stunden und Minuten)
-best_upload_times = [(8, 10), (14, 0), (16, 53), (17, 16), (22, 57)][:daily_posts]  # Beispielzeiten, angepasst an daily_posts
+best_upload_times = [(7, 00), (7, 30), (7, 45), (7, 55), (7, 57)][:daily_posts]  # Beispielzeiten, angepasst an daily_posts
 
 # Tab für TikTok Upload öffnen
 tab = cc.edge.open("https://www.tiktok.com/upload?lang=en")
