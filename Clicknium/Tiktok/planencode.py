@@ -30,6 +30,7 @@ best_upload_times = [(10, 10), (14, 0), (16, 53), (17, 16), (18, 45)][:daily_pos
 tab = cc.edge.open("https://www.tiktok.com/upload?lang=en")
 time.sleep(5)
 
+
 # Schleife für das Hochladen der Videos in zufälliger Reihenfolge
 for num in video_numbers:
     # Aktuelle Zeit und Datum abrufen
