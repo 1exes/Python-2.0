@@ -26,6 +26,18 @@ video_extensions = [".webm", ".mpg", ".mp2", ".mpeg", ".mpe", ".mpv", ".ogg", ".
 audio_extensions = [".m4a", ".flac", ".mp3", ".wav", ".wma", ".aac"]
 document_extensions = [".doc", ".docx", ".odt", ".pdf", ".xls", ".xlsx", ".ppt", ".pptx"]
 
+# Liste der Zielordner, die nicht gelöscht werden sollen
+protected_dirs = [
+    dest_dir_sfx,
+    dest_dir_music,
+    dest_dir_video,
+    dest_dir_image,
+    dest_dir_documents,
+    dest_dir_misc,
+    archive_dir,
+    backup_dir
+]
+
 def create_directories():
     directories = [dest_dir_sfx, dest_dir_music, dest_dir_video, dest_dir_image, dest_dir_documents, dest_dir_misc, archive_dir, backup_dir]
     for directory in directories:
@@ -72,7 +84,7 @@ def cleanup_empty_folders():
         for dirpath, dirnames, filenames in os.walk(source_dir, topdown=False):
             if not dirnames and not filenames:
                 # Überprüfen, ob der Ordner älter als 1 Minute ist, um versehentlich erstellte Ordner zu vermeiden
-                if not is_recently_created(dirpath):
+                if not is_recently_created(dirpath) and dirpath not in protected_dirs:
                     os.rmdir(dirpath)
                     logging.info(f"Deleted empty folder: {dirpath}")
 
