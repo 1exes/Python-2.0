@@ -125,3 +125,25 @@ class MoverHandler(FileSystemEventHandler):
         return False
 
     def move_misc_files(self, entry, name):
+        dest = dest_dir_misc
+        move_file(dest, entry.path, name)
+        logging.info(f"Moved miscellaneous file: {name} to {dest}")
+
+if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO,
+                        format='%(asctime)s - %(message)s',
+                        datefmt='%Y-%m-%d %H:%M:%S')
+    create_directories()
+    event_handler = MoverHandler()
+    observer = Observer()
+    for source_dir in source_dirs:
+        observer.schedule(event_handler, source_dir, recursive=True)
+    observer.start()
+    try:
+        while True:
+            cleanup_empty_folders()
+            archive_old_files()
+            observer.join(10)  # Observer alle 10 Sekunden überprüfen
+    except KeyboardInterrupt:
+        observer.stop()
+    observer.join()
