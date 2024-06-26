@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 import os
 import random
 from typing import List, Tuple
@@ -39,7 +40,8 @@ def clip(
     def generate_audio_text(fulltext: List[str]):
         audio_comp = []
         text_comp = []
-
+ 
+ 
         for idx, text in track(enumerate(fulltext), description='Synthesizing Audio...'):
             if text == "":
                 continue
@@ -125,3 +127,22 @@ if __name__ == '__main__':
          offset=video_background_offset)
 
     console.print("\n\n[light_green] Completed!")
+=======
+from TikTokApi import TikTokApi
+import asyncio
+import os
+
+ms_token = os.environ.get("ms_token", None)  # set your own ms_token
+
+
+async def trending_videos():
+    async with TikTokApi() as api:
+        await api.create_sessions(ms_tokens=[ms_token], num_sessions=1, sleep_after=3)
+        async for video in api.trending.videos(count=30):
+            print(video)
+            print(video.as_dict)
+
+
+if __name__ == "__main__":
+    asyncio.run(trending_videos())
+>>>>>>> Stashed changes

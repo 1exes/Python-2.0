@@ -2,6 +2,7 @@ from os import scandir, rename
 from os.path import splitext, exists, join
 from shutil import move
 from time import sleep
+import os
 
 import logging
 
@@ -11,11 +12,12 @@ from watchdog.events import FileSystemEventHandler
 # ! FILL IN BELOW
 # ? folder to track e.g. Windows: "C:\\Users\\UserName\\Downloads"
 source_dir = "C:\\Users\\richte\\Downloads"
-dest_dir_sfx = ""
-dest_dir_music = "C:\\Users\\richte\\Downloads\\music"
-dest_dir_video = "C:\\Users\\richte\\Downloads\\video"
-dest_dir_image = "C:\\Users\\richte\\Download\\Bilder"
-dest_dir_documents = "C:\\Users\\richte\\Downloads\\documents"
+dest_dir_sfx = "C:\\Users\\richte\\Downloads\\Download_sfx"
+dest_dir_music = "C:\\Users\\richte\\Downloads\\Download_Music"
+dest_dir_video = "C:\\Users\\richte\\Downloads\\Download_Video"
+dest_dir_image = "C:\\Users\\richte\\Downloads\\Download_Bilder"
+dest_dir_documents = "C:\\Users\\richte\\Downloads\\Download_Documents "
+
 
 # ? supported image types
 image_extensions = [".jpg", ".jpeg", ".jpe", ".jif", ".jfif", ".jfi", ".png", ".gif", ".webp", ".tiff", ".tif", ".psd", ".raw", ".arw", ".cr2", ".nrw",
@@ -27,7 +29,23 @@ video_extensions = [".webm", ".mpg", ".mp2", ".mpeg", ".mpe", ".mpv", ".ogg",
 audio_extensions = [".m4a", ".flac", "mp3", ".wav", ".wma", ".aac"]
 # ? supported Document types
 document_extensions = [".doc", ".docx", ".odt",
-                       ".pdf", ".xls", ".xlsx", ".ppt", ".pptx"]
+                       ".pdf", ".xls", ".xlsx", ".ppt", ".pptx", ".csv",".tsu"]
+
+
+
+# Liste der Verzeichnispfade
+dirs = [dest_dir_sfx, dest_dir_music, dest_dir_video, dest_dir_image, dest_dir_documents]
+
+# Erstellen Sie jedes Verzeichnis, wenn es nicht existiert
+for dir_path in dirs:
+    if not os.path.exists(dir_path):
+        os.makedirs(dir_path)
+        print(f"Verzeichnis erstellt: {dir_path}")
+    else:
+        print(f"Verzeichnis existiert bereits: {dir_path}")
+
+
+
 
 
 def make_unique(dest, name):
@@ -91,6 +109,13 @@ class MoverHandler(FileSystemEventHandler):
                 logging.info(f"Moved document file: {name}")
 
 
+
+
+
+
+
+
+
 # ! NO NEED TO CHANGE BELOW CODE
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO,
@@ -103,7 +128,7 @@ if __name__ == "__main__":
     observer.start()
     try:
         while True:
-            sleep(10)
+            sleep(1)
     except KeyboardInterrupt:
         observer.stop()
     observer.join()
