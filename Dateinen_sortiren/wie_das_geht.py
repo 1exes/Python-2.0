@@ -27,9 +27,11 @@ audio_extensions = [".m4a", ".flac", ".mp3", ".wav", ".wma", ".aac"]
 document_extensions = [".doc", ".docx", ".odt", ".pdf", ".xls", ".xlsx", ".ppt", ".pptx"]
 
 def create_directories():
-    for directory in [dest_dir_sfx, dest_dir_music, dest_dir_video, dest_dir_image, dest_dir_documents, dest_dir_misc, archive_dir, backup_dir]:
+    directories = [dest_dir_sfx, dest_dir_music, dest_dir_video, dest_dir_image, dest_dir_documents, dest_dir_misc, archive_dir, backup_dir]
+    for directory in directories:
         if not os.path.exists(directory):
             os.makedirs(directory)
+            logging.info(f"Created directory: {directory}")
 
 def make_unique(dest, name):
     filename, extension = os.path.splitext(name)
@@ -69,8 +71,15 @@ def cleanup_empty_folders():
     for source_dir in source_dirs:
         for dirpath, dirnames, filenames in os.walk(source_dir, topdown=False):
             if not dirnames and not filenames:
-                os.rmdir(dirpath)
-                logging.info(f"Deleted empty folder: {dirpath}")
+                # Überprüfen, ob der Ordner älter als 1 Minute ist, um versehentlich erstellte Ordner zu vermeiden
+                if not is_recently_created(dirpath):
+                    os.rmdir(dirpath)
+                    logging.info(f"Deleted empty folder: {dirpath}")
+
+def is_recently_created(folder):
+    one_minute_ago = datetime.now() - timedelta(minutes=1)
+    folder_created_time = datetime.fromtimestamp(os.path.getctime(folder))
+    return folder_created_time > one_minute_ago
 
 class MoverHandler(FileSystemEventHandler):
     def on_modified(self, event):
