@@ -1,134 +1,127 @@
-from os import scandir, rename
-from os.path import splitext, exists, join
-from shutil import move
-from time import sleep
 import os
-
+import shutil
 import logging
-
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
+from datetime import datetime, timedelta
 
-# ! FILL IN BELOW
-# ? folder to track e.g. Windows: "C:\\Users\\UserName\\Downloads"
-source_dir = "C:\\Users\\richte\\Downloads"
-dest_dir_sfx = "C:\\Users\\richte\\Downloads\\Download_sfx"
-dest_dir_music = "C:\\Users\\richte\\Downloads\\Download_Music"
-dest_dir_video = "C:\\Users\\richte\\Downloads\\Download_Video"
-dest_dir_image = "C:\\Users\\richte\\Downloads\\Download_Bilder"
-dest_dir_documents = "C:\\Users\\richte\\Downloads\\Download_Documents "
+# Quellordner und Zielordner
+source_dirs = [
+    "C:\\Users\\edgar\\Downloads\\",
+    "C:\\Users\\edgar\\Documents\\"
+]
+dest_dir_sfx = "C:\\Users\\edgar\\Downloads\\Sound_Effects"
+dest_dir_music = "C:\\Users\\edgar\\Downloads\\Music"
+dest_dir_video = "C:\\Users\\edgar\\Downloads\\Videos"
+dest_dir_image = "C:\\Users\\edgar\\Downloads\\Images"
+dest_dir_documents = "C:\\Users\\edgar\\Downloads\\Documents"
+dest_dir_misc = "C:\\Users\\edgar\\Downloads\\Misc"
+archive_dir = "C:\\Users\\edgar\\Downloads\\Archive"
+backup_dir = "C:\\Users\\edgar\\Downloads\\Backup"
+archive_threshold_days = 30
 
+# Unterstützte Dateitypen
+image_extensions = [".jpg", ".jpeg", ".jpe", ".jif", ".jfif", ".jfi", ".png", ".gif", ".webp", ".tiff", ".tif", ".psd", ".raw", ".arw", ".cr2", ".nrw", ".k25", ".bmp", ".dib", ".heif", ".heic", ".ind", ".indd", ".indt", ".jp2", ".j2k", ".jpf", ".jpf", ".jpx", ".jpm", ".mj2", ".svg", ".svgz", ".ai", ".eps", ".ico"]
+video_extensions = [".webm", ".mpg", ".mp2", ".mpeg", ".mpe", ".mpv", ".ogg", ".mp4", ".mp4v", ".m4v", ".avi", ".wmv", ".mov", ".qt", ".flv", ".swf", ".avchd"]
+audio_extensions = [".m4a", ".flac", ".mp3", ".wav", ".wma", ".aac"]
+document_extensions = [".doc", ".docx", ".odt", ".pdf", ".xls", ".xlsx", ".ppt", ".pptx"]
 
-# ? supported image types
-image_extensions = [".jpg", ".jpeg", ".jpe", ".jif", ".jfif", ".jfi", ".png", ".gif", ".webp", ".tiff", ".tif", ".psd", ".raw", ".arw", ".cr2", ".nrw",
-                    ".k25", ".bmp", ".dib", ".heif", ".heic", ".ind", ".indd", ".indt", ".jp2", ".j2k", ".jpf", ".jpf", ".jpx", ".jpm", ".mj2", ".svg", ".svgz", ".ai", ".eps", ".ico"]
-# ? supported Video types
-video_extensions = [".webm", ".mpg", ".mp2", ".mpeg", ".mpe", ".mpv", ".ogg",
-                    ".mp4", ".mp4v", ".m4v", ".avi", ".wmv", ".mov", ".qt", ".flv", ".swf", ".avchd"]
-# ? supported Audio types
-audio_extensions = [".m4a", ".flac", "mp3", ".wav", ".wma", ".aac"]
-# ? supported Document types
-document_extensions = [".doc", ".docx", ".odt",
-                       ".pdf", ".xls", ".xlsx", ".ppt", ".pptx", ".csv",".tsu"]
-
-
-
-# Liste der Verzeichnispfade
-dirs = [dest_dir_sfx, dest_dir_music, dest_dir_video, dest_dir_image, dest_dir_documents]
-
-# Erstellen Sie jedes Verzeichnis, wenn es nicht existiert
-for dir_path in dirs:
-    if not os.path.exists(dir_path):
-        os.makedirs(dir_path)
-        print(f"Verzeichnis erstellt: {dir_path}")
-    else:
-        print(f"Verzeichnis existiert bereits: {dir_path}")
-
-
-
-
+def create_directories():
+    for directory in [dest_dir_sfx, dest_dir_music, dest_dir_video, dest_dir_image, dest_dir_documents, dest_dir_misc, archive_dir, backup_dir]:
+        if not os.path.exists(directory):
+            os.makedirs(directory)
 
 def make_unique(dest, name):
-    filename, extension = splitext(name)
+    filename, extension = os.path.splitext(name)
     counter = 1
-    # * IF FILE EXISTS, ADDS NUMBER TO THE END OF THE FILENAME
-    while exists(f"{dest}/{name}"):
-        name = f"{filename}({str(counter)}){extension}"
+    while os.path.exists(os.path.join(dest, name)):
+        name = f"{filename}({counter}){extension}"
         counter += 1
-
     return name
 
-
 def move_file(dest, entry, name):
-    if exists(f"{dest}/{name}"):
+    dest_path = os.path.join(dest, name)
+    if os.path.exists(dest_path):
         unique_name = make_unique(dest, name)
-        oldName = join(dest, name)
-        newName = join(dest, unique_name)
-        rename(oldName, newName)
-    move(entry, dest)
+        old_name = os.path.join(dest, name)
+        new_name = os.path.join(dest, unique_name)
+        os.rename(old_name, new_name)
+    shutil.move(entry, os.path.join(dest, name))
+    logging.info(f"Moved file: {name} to {dest}")
 
+def backup_file(src):
+    backup_name = os.path.join(backup_dir, os.path.basename(src))
+    shutil.copy(src, backup_name)
+    logging.info(f"Backed up file: {os.path.basename(src)} to {backup_name}")
+
+def archive_old_files():
+    now = datetime.now()
+    cutoff_date = now - timedelta(days=archive_threshold_days)
+    for dest_dir in [dest_dir_sfx, dest_dir_music, dest_dir_video, dest_dir_image, dest_dir_documents, dest_dir_misc]:
+        for entry in os.scandir(dest_dir):
+            if entry.is_file() and datetime.fromtimestamp(entry.stat().st_mtime) < cutoff_date:
+                archive_name = os.path.join(archive_dir, entry.name)
+                shutil.make_archive(archive_name, 'zip', dest_dir, entry.name)
+                os.remove(entry.path)
+                logging.info(f"Archived file: {entry.name}")
+
+def cleanup_empty_folders():
+    for source_dir in source_dirs:
+        for dirpath, dirnames, filenames in os.walk(source_dir, topdown=False):
+            if not dirnames and not filenames:
+                os.rmdir(dirpath)
+                logging.info(f"Deleted empty folder: {dirpath}")
 
 class MoverHandler(FileSystemEventHandler):
-    # ? THIS FUNCTION WILL RUN WHENEVER THERE IS A CHANGE IN "source_dir"
-    # ? .upper is for not missing out on files with uppercase extensions
     def on_modified(self, event):
-        with scandir(source_dir) as entries:
-            for entry in entries:
+        for source_dir in source_dirs:
+            for entry in os.scandir(source_dir):
                 name = entry.name
-                self.check_audio_files(entry, name)
-                self.check_video_files(entry, name)
-                self.check_image_files(entry, name)
-                self.check_document_files(entry, name)
+                if entry.is_file():
+                    if not self.check_audio_files(entry, name) and \
+                       not self.check_video_files(entry, name) and \
+                       not self.check_image_files(entry, name) and \
+                       not self.check_document_files(entry, name):
+                        self.move_misc_files(entry, name)
 
-    def check_audio_files(self, entry, name):  # * Checks all Audio Files
+    def check_audio_files(self, entry, name):
         for audio_extension in audio_extensions:
             if name.endswith(audio_extension) or name.endswith(audio_extension.upper()):
-                if entry.stat().st_size < 10_000_000 or "SFX" in name:  # ? 10Megabytes
+                if entry.stat().st_size < 10_000_000 or "SFX" in name:
                     dest = dest_dir_sfx
                 else:
                     dest = dest_dir_music
-                move_file(dest, entry, name)
-                logging.info(f"Moved audio file: {name}")
+                backup_file(entry.path)  # Sicherheitskopie erstellen
+                move_file(dest, entry.path, name)
+                logging.info(f"Moved audio file: {name} to {dest}")
+                return True
+        return False
 
-    def check_video_files(self, entry, name):  # * Checks all Video Files
+    def check_video_files(self, entry, name):
         for video_extension in video_extensions:
             if name.endswith(video_extension) or name.endswith(video_extension.upper()):
-                move_file(dest_dir_video, entry, name)
-                logging.info(f"Moved video file: {name}")
+                backup_file(entry.path)  # Sicherheitskopie erstellen
+                move_file(dest_dir_video, entry.path, name)
+                logging.info(f"Moved video file: {name} to {dest_dir_video}")
+                return True
+        return False
 
-    def check_image_files(self, entry, name):  # * Checks all Image Files
+    def check_image_files(self, entry, name):
         for image_extension in image_extensions:
             if name.endswith(image_extension) or name.endswith(image_extension.upper()):
-                move_file(dest_dir_image, entry, name)
-                logging.info(f"Moved image file: {name}")
+                backup_file(entry.path)  # Sicherheitskopie erstellen
+                move_file(dest_dir_image, entry.path, name)
+                logging.info(f"Moved image file: {name} to {dest_dir_image}")
+                return True
+        return False
 
-    def check_document_files(self, entry, name):  # * Checks all Document Files
-        for documents_extension in document_extensions:
-            if name.endswith(documents_extension) or name.endswith(documents_extension.upper()):
-                move_file(dest_dir_documents, entry, name)
-                logging.info(f"Moved document file: {name}")
+    def check_document_files(self, entry, name):
+        for document_extension in document_extensions:
+            if name.endswith(document_extension) or name.endswith(document_extension.upper()):
+                backup_file(entry.path)  # Sicherheitskopie erstellen
+                move_file(dest_dir_documents, entry.path, name)
+                logging.info(f"Moved document file: {name} to {dest_dir_documents}")
+                return True
+        return False
 
-
-
-
-
-
-
-
-
-# ! NO NEED TO CHANGE BELOW CODE
-if __name__ == "__main__":
-    logging.basicConfig(level=logging.INFO,
-                        format='%(asctime)s - %(message)s',
-                        datefmt='%Y-%m-%d %H:%M:%S')
-    path = source_dir
-    event_handler = MoverHandler()
-    observer = Observer()
-    observer.schedule(event_handler, path, recursive=True)
-    observer.start()
-    try:
-        while True:
-            sleep(1)
-    except KeyboardInterrupt:
-        observer.stop()
-    observer.join()
+    def move_misc_files(self, entry, name):
