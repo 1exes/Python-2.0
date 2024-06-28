@@ -1,148 +1,207 @@
-<<<<<<< Updated upstream
 import os
-import random
-from typing import List, Tuple
-import imageio
-imageio.plugins.ffmpeg.download()
-imageio.plugins.ffmpeg.load_lib()
-imageio.plugins.ffmpeg.get_exe()
-imageio.plugins.ffmpeg.get_ffmpeg_version()
-
-from gtts import gTTS
-from moviepy.editor import (
-    AudioFileClip, 
-    TextClip,
-    concatenate_audioclips
-)
-from rich.console import Console
-from rich.progress import track
-import pyfiglet
-
-def generate_speech(
-        text: str = 'test du hhund',
-        lang: str = 'en', 
-        filename: str = 'audio.mp3'):
-    myobj = gTTS(text=text, lang=lang, slow=False, tld='ca')
-    myobj.save(filename)
-    return filename
-
-def clip(
-        content: str, 
-        video_file: str, 
-        outfile: str, 
-        image_file: str = '', 
-        offset: int = 0, 
-        duration: int = 0):
-    
-    def split_text(text: str, delimiter: str = '\n'):
-        return text.split(delimiter)
-    
-    def generate_audio_text(fulltext: List[str]):
-        audio_comp = []
-        text_comp = []
- 
- 
-        for idx, text in track(enumerate(fulltext), description='Synthesizing Audio...'):
-            if text == "":
-                continue
-                
-            generated_file = f"temp_assets/audio_{idx}.mp3"
-            generate_speech(text.strip(), filename=generated_file)
-            
-            if os.path.exists(generated_file):
-                print(f"Generated audio file {generated_file} exists.")
-            else:
-                print(f"Generated audio file {generated_file} does not exist.")
-                continue
-
-            audio_duration = AudioFileClip(os.path.abspath(generated_file)).duration
-
-            text_clip = TextClip(
-                text,
-                font='Helvetica',
-                fontsize=32,
-                color="white",
-                align='center',
-                method='caption',
-                size=(660, None)
-            )
-            text_clip = text_clip.set_duration(audio_duration)
-
-            audio_comp.append(generated_file)
-            text_comp.append(text_clip)
-
-        return audio_comp, text_comp
-    
-    audio_comp, text_comp = generate_audio_text(split_text(content))
-
-    audio_comp_list = []
-    for audio_file in track(audio_comp, description='Stitching Audio...'):
-        audio_comp_list.append(AudioFileClip(audio_file))
-    audio_comp_stitch = concatenate_audioclips(audio_comp_list)
-    audio_comp_stitch.write_audiofile('temp_audio.mp3', fps=44100)
-
-    audio_duration = audio_comp_stitch.duration
-    if duration == 0:
-        duration = audio_duration
-
-    audio_comp_stitch.close()
-
-    vid_clip = VideoFileClip(video_file).subclip(offset, offset + duration)
-    vid_clip = vid_clip.resize((1980, 1280))
-    vid_clip = vid_clip.crop(x_center=1980 / 2, y_center=1280 / 2, width=720, height=1280)
-
-    if image_file != '':
-        image_clip = ImageClip(image_file).set_duration(duration).set_position(("center", 'center')).resize(0.8)
-        vid_clip = CompositeVideoClip([vid_clip, image_clip])
-
-    vid_clip = CompositeVideoClip([vid_clip, concatenate_videoclips(text_comp).set_position(('center', 860))])
-
-    vid_clip = vid_clip.set_audio(AudioFileClip('temp_audio.mp3').subclip(0, duration))
-    vid_clip.write_videofile(outfile, audio_codec='aac')
-    vid_clip.close()
-
-if __name__ == '__main__':
-
-    console = Console()
-    banner = pyfiglet.figlet_format(text='AutoClip', font='rectangles')
-    console.print()
-    console.print("[bold][red1]" + banner)
-    console.print("[dark_red] By Abhishta (github.com/abhishtagatya)")
-
-    if not os.path.exists("temp_assets"):
-        os.mkdir("temp_assets")
-
-    video_background_file = "your_video.mp4"  # Pfad zu Ihrer Hintergrundvideodatei
-    video_background_offset = random.randint(0, 5000)
-    image_banner_file = "your_banner.png"  # Pfad zu Ihrer Bannerbilddatei
-    output_file = "AutoClip_Out.mp4"
-
-    content = """Ihr Text hier\nund hier\nund hier\n"""
-
-    console.print("\n\n[light_green] Task Starting\n\n")
-    clip(content=content, 
-         video_file=video_background_file, 
-         image_file=image_banner_file,
-         outfile=output_file, 
-         offset=video_background_offset)
-
-    console.print("\n\n[light_green] Completed!")
-=======
-from TikTokApi import TikTokApi
-import asyncio
-import os
-
-ms_token = os.environ.get("ms_token", None)  # set your own ms_token
+import shutil
+import logging
+from watchdog.observers import Observer
+from watchdog.events import FileSystemEventHandler
+import magic
+from datetime import datetime, timedelta
+import threading
+import time
 
 
-async def trending_videos():
-    async with TikTokApi() as api:
-        await api.create_sessions(ms_tokens=[ms_token], num_sessions=1, sleep_after=3)
-        async for video in api.trending.videos(count=30):
-            print(video)
-            print(video.as_dict)
+# Initialisiere Magic
+mime = magic.Magic(mime=True)
 
+# Quellordner und Zielordner
+source_dirs = ["C:\\Users\\richte\\Downloads\\"]
+main_dir_media = "C:\\Users\\richte\\Downloads\\Media"
+main_dir_documents = "C:\\Users\\richte\\Downloads\\Documents"
+main_dir_misc = "C:\\Users\\richte\\Downloads\\Misc"
+archive_dir = "C:\\Users\\richte\\Downloads\\Archive"
+backup_dir = "C:\\Users\\richte\\Downloads\\Backup"
+archive_threshold_days = 30
 
+# Unterverzeichnisse für Dateitypen
+subdirs = {
+    "media": ["Images", "Videos", "Audio"],
+    "documents": ["PDFs", "Word_Documents", "Spreadsheets", "Presentations", "Text_Files"],
+    "misc": [],
+    "archive": [],
+    "backup": []
+}
+
+# Unterstützte Dateitypen
+image_extensions = [".jpg", ".jpeg", ".png", ".gif", ".webp", ".tiff", ".bmp", ".ico"]
+video_extensions = [".webm", ".mpg", ".mpeg", ".mp4", ".avi", ".wmv", ".mov", ".flv"]
+audio_extensions = [".m4a", ".flac", ".mp3", ".wav", ".wma", ".aac"]
+document_extensions = [".doc", ".docx", ".odt", ".pdf", ".xls", ".xlsx", ".ppt", ".pptx", ".csv", ".tsv", ".txt"]
+
+# Liste der Zielordner, die nicht gelöscht werden sollen
+protected_dirs = [
+    main_dir_media,
+    main_dir_documents,
+    main_dir_misc,
+    archive_dir,
+    backup_dir
+]
+
+# Logging-Konfiguration
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
+
+# Funktion zum Erstellen der Zielordner und Unterverzeichnisse, falls sie nicht existieren
+def create_directories():
+    directories = [main_dir_media, main_dir_documents, main_dir_misc, archive_dir, backup_dir]
+    for main_dir in directories:
+        if not os.path.exists(main_dir):
+            try:
+                os.makedirs(main_dir)
+                logging.info(f"Created directory: {main_dir}")
+            except OSError as e:
+                logging.error(f"Failed to create directory: {main_dir}. Error: {str(e)}")
+        for subdir in subdirs[main_dir.split("\\")[-1].lower()]:
+            full_subdir_path = os.path.join(main_dir, subdir)
+            if not os.path.exists(full_subdir_path):
+                try:
+                    os.makedirs(full_subdir_path)
+                    logging.info(f"Created subdirectory: {full_subdir_path}")
+                except OSError as e:
+                    logging.error(f"Failed to create subdirectory: {full_subdir_path}. Error: {str(e)}")
+
+# Funktion zur Erstellung eines eindeutigen Dateinamens im Zielordner, um Duplikate zu vermeiden
+def make_unique(dest, name):
+    filename, extension = os.path.splitext(name)
+    counter = 1
+    while os.path.exists(os.path.join(dest, name)):
+        name = f"{filename}({counter}){extension}"
+        counter += 1
+    return name
+
+# Funktion zum Kopieren einer Datei in ein ZIP-Archiv ohne das Original zu löschen
+def archive_file(entry, name):
+    archive_path = os.path.join(archive_dir, f"{name}.zip")
+    try:
+        shutil.make_archive(os.path.splitext(archive_path)[0], 'zip', os.path.dirname(entry), os.path.basename(entry))
+        logging.info(f"Archived file: {name}")
+    except (shutil.Error, OSError) as e:
+        logging.error(f"Failed to archive file {name}. Error: {str(e)}")
+
+# Funktion zum Verschieben einer Datei in einen Zielordner und zur Vermeidung von Duplikaten
+def move_file(dest, entry, name):
+    dest_path = os.path.join(dest, name)
+    try:
+        if os.path.exists(dest_path):
+            unique_name = make_unique(dest, name)
+            old_name = os.path.join(dest, name)
+            new_name = os.path.join(dest, unique_name)
+            os.rename(old_name, new_name)
+        shutil.move(entry, os.path.join(dest, name))
+        logging.info(f"Moved file: {name} to {dest}")
+    except (shutil.Error, OSError) as e:
+        logging.error(f"Failed to move file {name} to {dest}. Error: {str(e)}")
+
+# Funktion zum Archivieren alter Dateien
+def archive_old_files():
+    now = datetime.now()
+    cutoff_date = now - timedelta(days=archive_threshold_days)
+    for main_dir in [main_dir_media, main_dir_documents, main_dir_misc]:
+        try:
+            for root, dirs, files in os.walk(main_dir):
+                for file in files:
+                    file_path = os.path.join(root, file)
+                    if datetime.fromtimestamp(os.path.getmtime(file_path)) < cutoff_date:
+                        archive_file(file_path, file)
+        except (shutil.Error, OSError) as e:
+            logging.error(f"Failed to archive files in {main_dir}. Error: {str(e)}")
+
+# Funktion zum Bereinigen leerer Ordner in den Quellordnern
+def cleanup_empty_folders():
+    for source_dir in source_dirs:
+        try:
+            for dirpath, dirnames, filenames in os.walk(source_dir, topdown=False):
+                if not dirnames and not filenames:
+                    if not is_recently_created(dirpath) and dirpath not in protected_dirs:
+                        os.rmdir(dirpath)
+                        logging.info(f"Deleted empty folder: {dirpath}")
+        except (shutil.Error, OSError) as e:
+            logging.error(f"Failed to clean up empty folders in {source_dir}. Error: {str(e)}")
+
+# Funktion zur Überprüfung, ob ein Ordner kürzlich erstellt wurde
+def is_recently_created(folder):
+    try:
+        one_minute_ago = datetime.now() - timedelta(minutes=1)
+        folder_created_time = datetime.fromtimestamp(os.path.getctime(folder))
+        return folder_created_time > one_minute_ago
+    except OSError as e:
+        logging.error(f"Error checking folder creation time for {folder}. Error: {str(e)}")
+        return False
+
+# Klasse für den FileSystemEventHandler zum Überwachen und Verschieben von Dateien
+class MoverHandler(FileSystemEventHandler):
+    def on_modified(self, event):
+        for source_dir in source_dirs:
+            try:
+                for entry in os.scandir(source_dir):
+                    name = entry.name
+                    if entry.is_file():
+                        mime_type = mime.from_file(entry.path)
+                        if mime_type.startswith("image/"):
+                            self.move_image_files(entry, name)
+                        elif mime_type.startswith("video/"):
+                            self.move_video_files(entry, name)
+                        elif mime_type.startswith("audio/"):
+                            self.move_audio_files(entry, name)
+                        elif mime_type in ["application/pdf", "application/msword", "application/vnd.openxmlformats-officedocument.wordprocessingml.document"]:
+                            self.move_document_files(entry, name)
+                        else:
+                            self.move_misc_files(entry, name)
+            except (shutil.Error, OSError) as e:
+                logging.error(f"Error scanning directory {source_dir}. Error: {str(e)}")
+
+    def move_image_files(self, entry, name):
+        dest = os.path.join(main_dir_media, "Images")
+        move_file(dest, entry.path, name)
+        logging.info(f"Moved image file: {name} to {dest}")
+
+    def move_video_files(self, entry, name):
+        dest = os.path.join(main_dir_media, "Videos")
+        move_file(dest, entry.path, name)
+        logging.info(f"Moved video file: {name} to {dest}")
+
+    def move_audio_files(self, entry, name):
+        dest = os.path.join(main_dir_media, "Audio")
+        move_file(dest, entry.path, name)
+        logging.info(f"Moved audio file: {name} to {dest}")
+
+    def move_document_files(self, entry, name):
+        if name.endswith(".pdf"):
+            dest = os.path.join(main_dir_documents, "PDFs")
+        elif name.endswith(".doc") or name.endswith(".docx"):
+            dest = os.path.join(main_dir_documents, "Word_Documents")
+        elif name.endswith(".xls") or name.endswith(".xlsx"):
+            dest = os.path.join(main_dir_documents, "Spreadsheets")
+        elif name.endswith(".ppt") or name.endswith(".pptx"):
+            dest = os.path.join(main_dir_documents, "Presentations")
+        else:
+            dest = os.path.join(main_dir_documents, "Text_Files")
+        move_file(dest, entry.path, name)
+        logging.info(f"Moved document file: {name} to {dest}")
+
+    def move_misc_files(self, entry, name):
+        move_file(main_dir_misc, entry.path, name)
+        logging.info(f"Moved miscellaneous file: {name} to {main_dir_misc}")
+
+# Watchdog Observer einrichten
 if __name__ == "__main__":
-    asyncio.run(trending_videos())
->>>>>>> Stashed changes
+    create_directories()
+    event_handler = MoverHandler()
+    observer = Observer()
+    for source_dir in source_dirs:
+        observer.schedule(event_handler, source_dir, recursive=True)
+    observer.start()
+
+    try:
+        while True:
+            time.sleep(1)
+    except KeyboardInterrupt:
+        observer.stop()
+    observer.join()

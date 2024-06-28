@@ -6,54 +6,65 @@ from watchdog.events import FileSystemEventHandler
 from datetime import datetime, timedelta
 import threading
 
-# Quellordner und Zielordner
+# Quellordner und Hauptzielordner
 source_dirs = [
     "C:\\Users\\richte\\Downloads\\",
-    
 ]
-dest_dir_sfx = "C:\\Users\\richte\\Downloads\\Sound_Effects"
-dest_dir_music = "C:\\Users\\richte\\Downloads\\Music"
-dest_dir_video = "C:\\Users\\richte\\Downloads\\Videos"
-dest_dir_image = "C:\\Users\\richte\\Downloads\\Images"
-dest_dir_documents = "C:\\Users\\richte\\Downloads\\Documents"
-dest_dir_misc = "C:\\Users\\richte\\Downloads\\Misc"
+
+# Hauptzielordner
+main_dir_media = "C:\\Users\\richte\\Downloads\\Media"
+main_dir_documents = "C:\\Users\\richte\\Downloads\\"
+main_dir_misc = "C:\\Users\\richte\\Downloads\\sonstiges"
 archive_dir = "C:\\Users\\richte\\Downloads\\Archive"
-backup_dir = "C:\\Users\\richte\\Downloads\\Backup"
 archive_threshold_days = 30
+
+# Unterordner für verschiedene Dateitypen
+subdirs = {
+    main_dir_media: ["Sound_Effects", "Music", "Videos", "Images"],
+    main_dir_documents: ["Documents"],
+    main_dir_misc: ["sonstiges"],
+}
+
+# Geschützte Ordner, die nicht gelöscht werden sollen
+protected_dirs = [
+    main_dir_media,
+    main_dir_documents,
+    main_dir_misc,
+    archive_dir
+]
+for main_dir in subdirs:
+    protected_dirs.extend([os.path.join(main_dir, subdir) for subdir in subdirs[main_dir]])
 
 # Unterstützte Dateitypen
 image_extensions = [".jpg", ".jpeg", ".jpe", ".jif", ".jfif", ".jfi", ".png", ".gif", ".webp", ".tiff", ".tif", ".psd", ".raw", ".arw", ".cr2", ".nrw", ".k25", ".bmp", ".dib", ".heif", ".heic", ".ind", ".indd", ".indt", ".jp2", ".j2k", ".jpf", ".jpf", ".jpx", ".jpm", ".mj2", ".svg", ".svgz", ".ai", ".eps", ".ico"]
 video_extensions = [".webm", ".mpg", ".mp2", ".mpeg", ".mpe", ".mpv", ".ogg", ".mp4", ".mp4v", ".m4v", ".avi", ".wmv", ".mov", ".qt", ".flv", ".swf", ".avchd"]
 audio_extensions = [".m4a", ".flac", ".mp3", ".wav", ".wma", ".aac"]
-document_extensions = [".doc", ".docx", ".odt", ".pdf", ".xls", ".xlsx", ".ppt", ".pptx"]
-
-# Liste der Zielordner, die nicht gelöscht werden sollen
-protected_dirs = [
-    dest_dir_sfx,
-    dest_dir_music,
-    dest_dir_video,
-    dest_dir_image,
-    dest_dir_documents,
-    dest_dir_misc,
-    archive_dir,
-    backup_dir
-]
+document_extensions = [".doc", ".docx", ".odt", ".pdf", ".xls", ".xlsx", ".ppt", ".pptx", ".csv", ".tsv"]
 
 # Logging-Konfiguration
 logging.basicConfig(level=logging.INFO,
                     format='%(asctime)s - %(message)s',
                     datefmt='%Y-%m-%d %H:%M:%S')
 
-# Funktion zum Erstellen der Zielordner, falls sie nicht existieren
+# Funktion zum Erstellen der Haupt- und Unterordner, falls sie nicht existieren
 def create_directories():
-    directories = [dest_dir_sfx, dest_dir_music, dest_dir_video, dest_dir_image, dest_dir_documents, dest_dir_misc, archive_dir, backup_dir]
-    for directory in directories:
-        if not os.path.exists(directory):
+    main_dirs = [main_dir_media, main_dir_documents, main_dir_misc, archive_dir]
+    for main_dir in main_dirs:
+        if not os.path.exists(main_dir):
             try:
-                os.makedirs(directory)
-                logging.info(f"Created directory: {directory}")
+                os.makedirs(main_dir)
+                logging.info(f"Created main directory: {main_dir}")
             except OSError as e:
-                logging.error(f"Failed to create directory: {directory}. Error: {str(e)}")
+                logging.error(f"Failed to create main directory: {main_dir}. Error: {str(e)}")
+                
+        for subdir in subdirs.get(main_dir, []):
+            subdir_path = os.path.join(main_dir, subdir)
+            if not os.path.exists(subdir_path):
+                try:
+                    os.makedirs(subdir_path)
+                    logging.info(f"Created subdirectory: {subdir_path}")
+                except OSError as e:
+                    logging.error(f"Failed to create subdirectory: {subdir_path}. Error: {str(e)}")
 
 # Funktion zur Erstellung eines eindeutigen Dateinamens im Zielordner, um Duplikate zu vermeiden
 def make_unique(dest, name):
@@ -78,20 +89,21 @@ def move_file(dest, entry, name):
     except (shutil.Error, OSError) as e:
         logging.error(f"Failed to move file {name} to {dest}. Error: {str(e)}")
 
-# Funktion zum Archivieren alter Dateien in einem ZIP-Archiv
+# Funktion zum Archivieren alter Dateien in einem ZIP-Archiv (Kopien der Dateien)
 def archive_old_files():
     now = datetime.now()
     cutoff_date = now - timedelta(days=archive_threshold_days)
-    for dest_dir in [dest_dir_sfx, dest_dir_music, dest_dir_video, dest_dir_image, dest_dir_documents, dest_dir_misc]:
-        try:
-            for entry in os.scandir(dest_dir):
-                if entry.is_file() and datetime.fromtimestamp(entry.stat().st_mtime) < cutoff_date:
-                    archive_name = os.path.join(archive_dir, entry.name)
-                    shutil.make_archive(archive_name, 'zip', dest_dir, entry.name)
-                    os.remove(entry.path)
-                    logging.info(f"Archived file: {entry.name}")
-        except (shutil.Error, OSError) as e:
-            logging.error(f"Failed to archive files in {dest_dir}. Error: {str(e)}")
+    for main_dir in [main_dir_media, main_dir_documents, main_dir_misc]:
+        for subdir in subdirs.get(main_dir, []):
+            dest_dir = os.path.join(main_dir, subdir)
+            try:
+                for entry in os.scandir(dest_dir):
+                    if entry.is_file() and datetime.fromtimestamp(entry.stat().st_mtime) < cutoff_date:
+                        archive_name = os.path.join(archive_dir, entry.name)
+                        shutil.make_archive(archive_name, 'zip', dest_dir, entry.name)
+                        logging.info(f"Archived file: {entry.name}")
+            except (shutil.Error, OSError) as e:
+                logging.error(f"Failed to archive files in {dest_dir}. Error: {str(e)}")
 
 # Funktion zum Bereinigen leerer Ordner in den Quellordnern
 def cleanup_empty_folders():
@@ -115,7 +127,6 @@ def is_recently_created(folder):
         logging.error(f"Error checking folder creation time for {folder}. Error: {str(e)}")
         return False
 
-
 # Klasse für den FileSystemEventHandler zum Überwachen und Verschieben von Dateien
 class MoverHandler(FileSystemEventHandler):
     def on_modified(self, event):
@@ -137,9 +148,9 @@ class MoverHandler(FileSystemEventHandler):
             for audio_extension in audio_extensions:
                 if name.endswith(audio_extension) or name.endswith(audio_extension.upper()):
                     if entry.stat().st_size < 10_000_000 or "SFX" in name:
-                        dest = dest_dir_sfx
+                        dest = os.path.join(main_dir_media, "Sound_Effects")
                     else:
-                        dest = dest_dir_music
+                        dest = os.path.join(main_dir_media, "Music")
                     move_file(dest, entry.path, name)
                     logging.info(f"Moved audio file: {name} to {dest}")
                     return True
@@ -152,8 +163,9 @@ class MoverHandler(FileSystemEventHandler):
         try:
             for video_extension in video_extensions:
                 if name.endswith(video_extension) or name.endswith(video_extension.upper()):
-                    move_file(dest_dir_video, entry.path, name)
-                    logging.info(f"Moved video file: {name} to {dest_dir_video}")
+                    dest = os.path.join(main_dir_media, "Videos")
+                    move_file(dest, entry.path, name)
+                    logging.info(f"Moved video file: {name} to {dest}")
                     return True
             return False
         except (shutil.Error, OSError) as e:
@@ -164,8 +176,9 @@ class MoverHandler(FileSystemEventHandler):
         try:
             for image_extension in image_extensions:
                 if name.endswith(image_extension) or name.endswith(image_extension.upper()):
-                    move_file(dest_dir_image, entry.path, name)
-                    logging.info(f"Moved image file: {name} to {dest_dir_image}")
+                    dest = os.path.join(main_dir_media, "Images")
+                    move_file(dest, entry.path, name)
+                    logging.info(f"Moved image file: {name} to {dest}")
                     return True
             return False
         except (shutil.Error, OSError) as e:
@@ -176,8 +189,9 @@ class MoverHandler(FileSystemEventHandler):
         try:
             for document_extension in document_extensions:
                 if name.endswith(document_extension) or name.endswith(document_extension.upper()):
-                    move_file(dest_dir_documents, entry.path, name)
-                    logging.info(f"Moved document file: {name} to {dest_dir_documents}")
+                    dest = os.path.join(main_dir_documents, "Documents")
+                    move_file(dest, entry.path, name)
+                    logging.info(f"Moved document file: {name} to {dest}")
                     return True
             return False
         except (shutil.Error, OSError) as e:
@@ -186,8 +200,9 @@ class MoverHandler(FileSystemEventHandler):
 
     def move_misc_files(self, entry, name):
         try:
-            move_file(dest_dir_misc, entry.path, name)
-            logging.info(f"Moved miscellaneous file: {name} to {dest_dir_misc}")
+            dest = os.path.join(main_dir_misc, "Misc")
+            move_file(dest, entry.path, name)
+            logging.info(f"Moved miscellaneous file: {name} to {dest}")
         except (shutil.Error, OSError) as e:
             logging.error(f"Error moving miscellaneous file {name}. Error: {str(e)}")
 
