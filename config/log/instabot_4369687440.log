@@ -1,0 +1,3 @@
+2024-06-29 15:51:07,639 - instabot version: 0.117.0 (bot) - INFO - Instabot version: 0.117.0 Started
+2024-06-29 15:51:07,639 - instabot version: 0.117.0 (bot) - DEBUG - Bot imported from /opt/homebrew/lib/python3.11/site-packages/instabot/bot/bot.py
+2024-06-29 15:51:09,731 - instabot version: 0.117.0 (api_login) - INFO - Not yet logged in starting: PRE-LOGIN FLOW!
