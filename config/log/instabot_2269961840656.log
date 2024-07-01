@@ -1,0 +1,7 @@
+2024-06-30 07:34:42,476 - instabot version: 0.117.0 (bot) - INFO - Instabot version: 0.117.0 Started
+2024-06-30 07:34:42,477 - instabot version: 0.117.0 (bot) - DEBUG - Bot imported from C:\Users\edgar\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages\Python311\site-packages\instabot\bot\bot.py
+2024-06-30 07:34:42,478 - instabot version: 0.117.0 (api_login) - INFO - Not yet logged in starting: PRE-LOGIN FLOW!
+2024-06-30 07:34:42,516 - instabot version: 0.117.0 (api) - WARNING - ('Connection aborted.', BadStatusLine('\x00[\x00\x00\x00\x00\x00\x00'))
+2024-06-30 07:34:42,550 - instabot version: 0.117.0 (api) - WARNING - ('Connection aborted.', BadStatusLine('\x00[\x00\x00\x00\x00\x00\x00'))
+2024-06-30 07:34:42,585 - instabot version: 0.117.0 (api) - WARNING - ('Connection aborted.', BadStatusLine('\x00[\x00\x00\x00\x00\x00\x00'))
+2024-06-30 07:34:42,616 - instabot version: 0.117.0 (api) - WARNING - ('Connection aborted.', BadStatusLine('\x00[\x00\x00\x00\x00\x00\x00'))

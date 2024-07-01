@@ -9,7 +9,7 @@ import threading
 # Quellordner und Zielordner
 source_dirs = [
     "C:\\Users\\edgar\\Downloads\\",
-    "C:\\Users\\edgar\\Documents\\"
+    
 ]
 dest_dir_sfx = "C:\\Users\\edgar\\Downloads\\Sound_Effects"
 dest_dir_music = "C:\\Users\\edgar\\Downloads\\Music"
